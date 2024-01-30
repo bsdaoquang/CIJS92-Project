@@ -1,22 +1,34 @@
 /** @format */
-
-import PostItem from '../components/PostItem';
+import { useEffect, useState } from 'react';
+import { Button, List } from 'antd';
+import Title from 'antd/es/typography/Title';
 import { posts } from '../data/posts';
-import { Avatar, Button, List, Space } from 'antd';
 
 const Posts = () => {
+	const [posts, setPosts] = useState([]);
+	const [count, setCount] = useState(0);
+
+	useEffect(() => {
+		handleGetAllPosts();
+	}, []);
+
+	const handleGetAllPosts = () => {
+		console.log('Get posts');
+		const res = localStorage.getItem('posts');
+		res && setPosts(JSON.parse(res));
+	};
+
 	return (
-		<div className='container'>
+		<div className='container mt-4'>
+			<div className='text-right'>
+				<Button onClick={() => setCount(count + 1)}>+</Button>
+			</div>
+			<Title>{count}</Title>
 			<List
-				itemLayout='vertical'
 				dataSource={posts}
-				renderItem={(post, index) => (
-					<List.Item>
-						<List.Item.Meta
-							title={post.title}
-							description={post.body}
-							avatar={<Avatar>{post.userId}</Avatar>}
-						/>
+				renderItem={(item) => (
+					<List.Item key={item.id}>
+						<List.Item.Meta title={item.title} />
 					</List.Item>
 				)}
 			/>

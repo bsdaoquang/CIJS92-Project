@@ -2,11 +2,12 @@
 
 // import './App.css';
 import Posts from './screens/Posts';
+import TodoList from './screens/TodoList';
 
 const App = () => {
 	return (
 		<>
-			<Posts />
+			<TodoList />
 		</>
 	);
 };
