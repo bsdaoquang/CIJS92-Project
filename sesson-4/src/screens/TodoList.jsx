@@ -33,6 +33,8 @@ const TodoList = () => {
 				const index = tasks.findIndex((element) => element.id === task.id);
 				const data = { ...task, content };
 				items[index] = data;
+
+				setTask(undefined);
 			} else {
 				const data = {
 					id: Math.floor(Math.random() * 10000),
