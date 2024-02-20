@@ -1,7 +1,8 @@
 /** @format */
 
 import { Button, Checkbox, Input, List, Modal, Space, message } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import StoreContext from '../contexts/StoreContext';
 
 const { confirm } = Modal;
 
@@ -9,6 +10,9 @@ const TodoList = () => {
 	const [tasks, setTasks] = useState([]);
 	const [content, setContent] = useState('');
 	const [task, setTask] = useState();
+
+	const context = useContext(StoreContext);
+	const { store } = context;
 
 	useEffect(() => {
 		handleGetAllTasks();
@@ -115,7 +119,7 @@ const TodoList = () => {
 									key={'btnEdit'}
 									type='link'
 									onClick={() => setTask(item)}>
-									Edit
+									{store.language === 'vie' ? 'Cập nhật' : 'Edit'}
 								</Button>,
 								<Button
 									key={'btnDelete'}
