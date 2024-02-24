@@ -1,57 +1,60 @@
 /** @format */
 
-import { Button, Input, Layout, Space } from 'antd';
-import React from 'react';
-import SiderComponent from '../components/SiderComponent';
-import HeaderComponent from '../components/HeaderComponent';
+import { Layout, List } from 'antd';
+import React, { useEffect, useState } from 'react';
 import FooterComponent from '../components/FooterComponent';
-import { useSearchParams } from 'react-router-dom';
-import { Send } from 'iconsax-react';
+import HeaderComponent from '../components/HeaderComponent';
+import { appInfos } from '../constants/appInfos';
+import axios from 'axios';
+import PostItem from '../components/PostItem';
 
 const { Content } = Layout;
 
 const HomeScreen = () => {
-	const [searchParams] = useSearchParams();
+	const [isLoading, setIsLoading] = useState(false);
+	const [posts, setPosts] = useState([]);
 
-	const uid = searchParams.get('uid');
+	useEffect(() => {
+		getPosts();
+	}, []);
 
-	const conversations = [
-		{
-			uid: '',
-			sender: '.',
-			messages: [
-				{
-					content: '',
-					createdAt: Date.now(),
-				},
-			],
-		},
-	];
+	const getPosts = async () => {
+		const api = `${appInfos.BASE_URL}/posts`;
+		setIsLoading(true);
+
+		try {
+			const res = await axios.get(api);
+
+			if (res && res.status === 200 && res.data) {
+				setPosts(res.data);
+			}
+
+			setIsLoading(false);
+		} catch (error) {
+			console.log(`Can not get posts data by ${error}`);
+			setIsLoading(false);
+		}
+	};
 
 	return (
-		<Layout style={{ height: '100vh' }}>
-			<SiderComponent />
-
+		<Layout>
 			<Layout>
 				<HeaderComponent />
 
 				<Content>
-					{uid ? (
-						<>
-							<div className='container' height={'100%'}></div>
-							<div className='p-4'>
-								<Space.Compact>
-									<Input placeholder='fafafa' />
-									<Button
-										type='primary'
-										icon={<Send size={22} color='coral' />}
-									/>
-								</Space.Compact>
-							</div>
-						</>
-					) : (
-						<p>Selecte user first</p>
-					)}
+					<div className='container mt-4 mb-4'>
+						{!isLoading && posts.length > 0 ? (
+							<List
+								itemLayout='vertical'
+								pagination
+								loading={isLoading}
+								dataSource={posts}
+								renderItem={(item) => <PostItem item={item} key={item.id} />}
+							/>
+						) : (
+							<p>Data found</p>
+						)}
+					</div>
 				</Content>
 
 				<FooterComponent />
