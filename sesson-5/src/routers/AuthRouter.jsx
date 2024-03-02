@@ -1,9 +1,10 @@
 /** @format */
 
 import React from 'react';
+import LoginScreen from '../screens/LoginScreen';
 
 const AuthRouter = () => {
-	return <div>AuthRouter</div>;
+	return <LoginScreen />;
 };
 
 export default AuthRouter;
