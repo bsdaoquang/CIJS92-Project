@@ -8,6 +8,7 @@ import Setting from '../screens/Setting';
 import Profile from '../screens/profiles/Profile';
 import UpdatePhoto from '../screens/profiles/UpdatePhoto';
 import PostDetail from '../screens/PostDetail';
+import ToDoList from '../screens/ToDoList';
 
 const HomeRouter = () => {
 	return (
@@ -18,6 +19,7 @@ const HomeRouter = () => {
 				<Route path='/setting' element={<Setting />} />
 				<Route path='/post-detail' element={<PostDetail />} />
 				<Route path='/profile' element={<Profile />}></Route>
+				<Route path='/to-do-list' element={<ToDoList />} />
 			</Routes>
 		</BrowserRouter>
 	);
